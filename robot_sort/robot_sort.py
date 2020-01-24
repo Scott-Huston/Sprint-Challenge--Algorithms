@@ -94,11 +94,44 @@ class SortingRobot:
 
     def sort(self):
         """
-        Sort the robot's list.
+        Sort the robot's list (using bubble sort)
         """
-        # Fill this out
-        pass
+        # turn light on for first run
+        self.set_light_on()
 
+        # while there was at least one change in the last run
+        while self.light_is_on():
+
+            # turn light off for fresh sorting run
+            self.set_light_off()
+
+            # reset robot on left of list
+            while self.can_move_left():
+                # print('inside reset left while loop')
+                self.move_left()
+
+            # one pass bubble-sorting list
+            while self.can_move_right():                
+                # pickup the first item of the pair to be compared 
+                # and move right
+                self.swap_item()
+                self.move_right()
+                
+                # if first item in pair is greater than second, thne
+                # swap the items in the pair and turn the light on
+                if self.compare_item()==1:
+                    self.swap_item()
+                    self.move_left()
+                    self.swap_item()
+                    self.move_right()
+                    self.set_light_on()
+
+                # otherwise, put the first item back and go back
+                # to where the robot should be in the list
+                else:
+                    self.move_left()
+                    self.swap_item()
+                    self.move_right()
 
 if __name__ == "__main__":
     # Test our your implementation from the command line
